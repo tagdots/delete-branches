@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 requires = [ "setuptools", "wheel" ]
 
 [project]
-name = "<project-name>"
+name = "delete-branches"
 version = "0.0.0"
 
 readme = "README.md"
@@ -23,6 +23,10 @@ classifiers = [
 ]
 
 dependencies = [
+  "click==8.2.1",
+  "gitpython==3.1.45",
+  "pygithub==2.7.0",
+  "rich==14.1.0",
   "setuptools==80.9.0",
   "virtualenv==20.34.0",
 ]
@@ -39,13 +43,13 @@ optional-dependencies.test = [
   "twine",
 ]
 
-urls.Changelog = "<Repo Changelog URL>"
-urls.Documentation = "<Repo Documentation URL>"
-urls.Homepage = "<Org or User Homepage URL>"
-urls.Issues = "<Repo Issue URL>"
-urls.Repository = "<Repo URL>"
+urls.Changelog = "https://github.com/tagdots/delete-branches/blob/main/CHANGELOG.md"
+urls.Documentation = "https://github.com/tagdots/delete-branches/blob/main/README.md"
+urls.Homepage = "https://github.com/tagdots"
+urls.Issues = "https://github.com/tagdots/delete-branches/issues"
+urls.Repository = "https://github.com/tagdots/delete-branches"
 
-scripts.<project-name> = "<package_name>.<filename>:main"
+scripts.delete-branches = "delete_branches.run:main"
 
 [dependency-groups]
 test = [
@@ -56,7 +60,7 @@ test = [
 where = [ "src" ]
 
 [tool.setuptools.dynamic]
-version = { attr = "src.<package_name>.__init__" }
+version = { attr = "src.delete_branches.__init__" }
 
 [tool.pyproject-fmt]
 column_width = 125
@@ -69,13 +73,13 @@ source = [ "." ]
 [tool.coverage.run]
 branch = true
 command_line = "-m pytest -vs"
-include = [ "src/<package_name>/*" ]
+include = [ "src/delete_branches/*" ]
 omit = [ "tests/*" ]
 
 [tool.coverage.report]
 fail_under = 80
 show_missing = false
-include = [ "src/<package_name>/*" ]
+include = [ "src/delete_branches/*" ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -83,7 +87,7 @@ major_version_zero = false
 tag_format = "$version"
 update_changelog_on_bump = true
 version_files = [
-  "src/<package_name>/__init__.py:__version__",
+  "src/delete_branches/__init__.py:__version__",
 ]
 version_provider = "pep621"
 version_scheme = "pep440"
