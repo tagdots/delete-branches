@@ -64,7 +64,7 @@ def check_user_inputs(repo, repo_url, exclude_branch, max_idle_days):
         print("❌ Error: excluded-branch must be a set")
         return False
 
-    if max_idle_days is not None and (not isinstance(max_idle_days, int) or max_idle_days <= 0):
+    if max_idle_days is not None and (not isinstance(max_idle_days, int) or max_idle_days < 0):
         print("❌ Error: max-idle-days must be an integer (0 or more)")
         return False
 
@@ -220,8 +220,10 @@ def main(dry_run, repo_url, exclude_branches, max_idle_days):
         max_idle_days = int(max_idle_days)
 
     console = Console()
-    console.print(f"\n🚀 Starting to Delete GitHub Branches (dry-run: [red]{dry_run}[/red], repo-url: [red]{repo_url}[/red],"
-                  f" exclude-branches: [red]{set_user_exclude_branches}[/red], max-idle-days: [red]{max_idle_days}[/red])\n")
+    console.print(f"\n🚀 Starting to Delete GitHub Branches (\
+                  dry-run: [red]{dry_run}[/red], \
+                  exclude-branches: [red]{set_user_exclude_branches}[/red], \
+                  max-idle-days: [red]{max_idle_days}[/red])\n")
 
     try:
         """setup github repo object"""
