@@ -129,23 +129,24 @@ jobs:
         days-before-close: 3
         operations-per-run: 40
 
-  # stale-branches: # https://github.com/tagdots/delete-branches-action
-  #   runs-on: ubuntu-latest
+  stale-branches: # https://github.com/tagdots/delete-branches-action
+    runs-on: ubuntu-latest
 
-  #   permissions:
-  #     contents: write
-  #     pull-requests: read
+    permissions:
+      contents: write
+      pull-requests: read
 
-  #   steps:
-  #   - name: Run stale-branches
-  #     id: stale-branches
-  #     uses: tagdots/delete-branches-action@  # 1.0.0
-  #     env:
-  #       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #       repo-url: ${{ github.repository }}
-  #       max-idle-days: 14
-  #       exclude-branches: 'badges'
+    steps:
+    - name: Run stale-branches
+      id: stale-branches
+      uses: tagdots/delete-branches-action@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        repo-url: ${{ github.repository }}
+        max-idle-days: 10
+        exclude-branches: 'badges'
+        dry-run: false
 
   update-pre-commit: # https://github.com/tagdots/update-pre-commit-action
     runs-on: ubuntu-latest
@@ -167,7 +168,7 @@ jobs:
 
   notify-slack: # https://github.com/slackapi/slack-github-action
     if: always()
-    needs: [badge-coverage, badge-marketplace, stale-workflow-runs, stale-issues-prs, update-pre-commit]
+    needs: [badge-coverage, badge-marketplace, stale-workflow-runs, stale-issues-prs, stale-branches, update-pre-commit]
 
     runs-on: ubuntu-latest
 
@@ -180,7 +181,7 @@ jobs:
       shell: bash
       run: |
         # get overall result from all of the previous jobs
-        if "${{ needs.badge-coverage.result == 'success' && needs.badge-marketplace.result == 'success' && needs.stale-workflow-runs.result == 'success' && needs.stale-issues-prs.result == 'success' && needs.update-pre-commit.result == 'success' }}"; then
+        if "${{ needs.badge-coverage.result == 'success' && needs.badge-marketplace.result == 'success' && needs.stale-workflow-runs.result == 'success' && needs.stale-issues-prs.result == 'success' && needs.stale-branches.result == 'success' && needs.update-pre-commit.result == 'success' }}"; then
           echo "WORKFLOW_RESULT=:white_check_mark:" >> "$GITHUB_OUTPUT"
         else
           echo "WORKFLOW_RESULT=:no_entry:" >> "$GITHUB_OUTPUT"
@@ -202,5 +203,6 @@ jobs:
               Job: badge-marketplace   - ${{ needs.badge-marketplace.result }}\n
               Job: stale-workflow-runs - ${{ needs.stale-workflow-runs.result }}\n
               Job: stale-issues-prs    - ${{ needs.stale-issues-prs.result }}\n
+              Job: stale-branches      - ${{ needs.stale-branches.result }}\n
               Job: update-pre-commit   - ${{ needs.update-pre-commit.result }}
               ```"
