@@ -1,5 +1,6 @@
 # delete-branches
 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11071/badge)](https://www.bestpractices.dev/projects/11071)
 [![CI](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml/badge.svg)](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml)
 [![marketplace](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/marketplace.json)](https://github.com/marketplace/actions/delete-branches-action)
 [![coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/coverage.json)](https://github.com/tagdots/delete-branches/actions/workflows/cron-tasks.yaml)
@@ -90,7 +91,7 @@ Total Number of Branches                         : 9
 Total Number of Branches (Exempt-From-Delete)    : 3
 Total Number of Branches (Not-Exempt-From-Delete): 6
 
-From 6 Not-Exempt-From-Delete Branch(es),  2 had no commit in the last 10 day(s)
+From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s)
 -------------------------------------------------------------------------------------------------
 (MOCK) Delete branch - last update UTC 2025-08-09 13:49:34: branch-test-001
 (MOCK) Delete branch - last update UTC 2025-08-08 03:29:34: branch-test-005
@@ -124,7 +125,7 @@ Total Number of Branches                         : 9
 Total Number of Branches (Exempt-From-Delete)    : 3
 Total Number of Branches (Not-Exempt-From-Delete): 6
 
-From 6 Not-Exempt-From-Delete Branch(es),  2 had no commit in the last 10 day(s)
+From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s)
 -------------------------------------------------------------------------------------------------
 ✅ Delete branch - last update UTC 2025-08-09 13:49:34: branch-test-001
 ✅ Delete branch - last update UTC 2025-08-08 03:29:34: branch-test-005
