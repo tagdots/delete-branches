@@ -1,5 +1,11 @@
 # delete-branches
 
+**✅ Removes GitHub branches that have been inactive (without new commits) for longer than the idle period.**
+
+_**exemptions**_: `default branch`, `protected branches`, `head branches in PR`, and `user-specified exclude branches`
+
+<br>
+
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11071/badge)](https://www.bestpractices.dev/projects/11071)
 [![CI](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml/badge.svg)](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml)
 [![marketplace](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/marketplace.json)](https://github.com/marketplace/actions/delete-branches-action)
@@ -7,21 +13,9 @@
 
 <br>
 
-**delete-branches** removes GitHub branches that have been inactive (without new commits) for longer than the idle period.
-
-<br>
-
-_**exemption**_
-* default branch
-* protected branches
-* head branches in PR
-* user-specified exclude branches
-
-<br>
-
 ## ⭐ Why switch to delete-branches?
-- we reduce your supply chain risks with `openssf best practices` in our SDLC and operations.
-- we share evidence of `coverage run` test results in action (click _**Code Coverage**_ badge).
+- we reduce your supply chain risks with [openssf best practices](https://best.openssf.org) in our SDLC and operations.
+- we share evidence of code coverage results in action (click _Code Coverage » cron-tasks » badge-coverage_).
 
 <br>
 
@@ -40,7 +34,7 @@ Please visit our GitHub action ([delete-branches-action](https://github.com/mark
 
 <br>
 
-### Install _delete-branches_
+### Setup _delete-branches_
 ```
 ~/work/hello-world $ workon hello-world
 (hello-world) ~/work/hello-world $ export GH_TOKEN=github_pat_xxxxxxxxxxxxx
@@ -67,11 +61,11 @@ Options:
 
 ### 🔍 Example 2 - MOCK delete branches with no commits longer than 10 days
 **Summary**
-1. exclude 3 branches: `'test-1'`, `'test-2'`, `'badges'`
+1. exclude 3 branches: `test-1`, `test-2`, `badges`
 1. remove branches without commits longer than 10 days
 
 **Results**
-1. refine excluded branches to `{'badges'}` because branches (`test-1` and `test-2`) do not exist
+1. refine excluded branches to `badges` because branches (`test-1` and `test-2`) do not exist
 1. 3 branches are exempted from delete: `main`, `badges`, `pr-branch-01`
 1. 6 branches are not exempted from delete and 2 out of 6 had no commits in the last 10 days
 1. mock delete 2 branches
@@ -101,11 +95,11 @@ From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s
 
 ### 🔍 Example 3 - Delete branches with no commits longer than 10 days
 **Summary**
-1. exclude 1 branch: `'badges'`
+1. exclude 1 branch: `badges`
 1. remove branches without commits longer than 10 days
 
 **Results**
-1. refine excluded branches to `{'badges'}`
+1. refine excluded branches to `badges`
 1. 3 branches are exempted from delete: `main`, `badges`, `pr-branch-01`
 1. 6 branches are not exempted from delete and 2 out of 6 had no commits in the last 10 days
 1. delete 2 branches
