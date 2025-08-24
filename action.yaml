@@ -1,6 +1,6 @@
 name: "Delete GitHub Branches"
 
-description: 'Delete GitHub branches with no commits more than the maximum idle days'
+description: ':octocat: Deletes idle branches in GitHub repository'
 
 author: tagdots
 
@@ -20,12 +20,12 @@ inputs:
     required: true
 
   exclude-branches:
-    description: 'Branch excluded from deletion'
+    description: 'Branch(es) excluded from deletion'
     required: false
 
   max-idle-days:
-    description: 'Delete branches with no commit more than the maximum idle days'
-    required: false
+    description: 'Maximum number of idle days (without new commits)'
+    required: true
 
 runs:
   using: "composite"
