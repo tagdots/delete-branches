@@ -3,6 +3,6 @@
   "style": "flat",
   "label": "Marketplace",
   "labelColor": "2e2e2e",
-  "message": "delete-branches-action",
+  "message": "Delete GitHub Branches",
   "color": "FF6360"
 }
