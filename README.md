@@ -1,15 +1,16 @@
 # delete-branches
 
-**✅ Removes GitHub branches that have been inactive (without new commits) for longer than the idle period.**
-
-_**exemptions**_: `default branch`, `protected branches`, `head branches in PR`, and `user-specified exclude branches`
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11071/badge)](https://www.bestpractices.dev/projects/11071)
+[![CI](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml/badge.svg)](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml)
+[![marketplace](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/marketplace.json)](https://github.com/marketplace/actions/delete-github-branches)
+[![coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/coverage.json)](https://github.com/tagdots/delete-branches/actions/workflows/cron-tasks.yaml)
 
 <br>
 
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11071/badge)](https://www.bestpractices.dev/projects/11071)
-[![CI](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml/badge.svg)](https://github.com/tagdots/delete-branches/actions/workflows/ci.yaml)
-[![marketplace](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/marketplace.json)](https://github.com/marketplace/actions/delete-branches-action)
-[![coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/tagdots/delete-branches/refs/heads/badges/badges/coverage.json)](https://github.com/tagdots/delete-branches/actions/workflows/cron-tasks.yaml)
+## ✅ What does delete-branches do?
+**delete-branches** removes GitHub branches that have been inactive (without new commits) for longer than the idle period.
+
+_**exemptions**_: `default branch`, `protected branches`, `head branches in PR`, and `user-specified exclude branches`
 
 <br>
 
@@ -19,8 +20,90 @@ _**exemptions**_: `default branch`, `protected branches`, `head branches in PR`,
 
 <br>
 
-## 🏃 Running _delete-branches-action_ in GitHub action
-Please visit our GitHub action ([delete-branches-action](https://github.com/marketplace/actions/delete-branches-action)) on the GitHub Marketplace.
+## 🏃 Running _delete-branches_ in GitHub action
+Use the workflow examples below to create your own workflow inside `.github/workflows/`.
+
+<br>
+
+### Example 1 - MOCK Delete Summary
+
+* run on a scheduled interval - every day at 5:30 pm UTC  (`- cron: '30 17 * * *'`)
+* use GitHub Token with permissions: `contents: read`
+* exclude branch from delete: `badges` (`exclude-branches: 'badges'`)
+* perform a **MOCK delete** (`dry-run: true`)
+* display inactive branches without new commits longer than 10 days (`max-idle-days: 10`)
+
+### Example 1 - MOCK Delete Workflow
+```
+name: delete-github-branches
+
+on:
+  schedule:
+    - cron: '30 17 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  delete-branches:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: read
+
+    - name: Run delete-branches
+      id: delete-branches
+      uses: tagdots/delete-branches@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        repo-url: ${{ github.repository }}
+        max-idle-days: 10
+        exclude-branches: 'badges'
+        dry-run: true
+```
+
+<br>
+
+### Example 2 - Irreversible Delete Summary
+
+* run on a scheduled interval - every day at 5:30 pm UTC  (`- cron: '30 17 * * *'`)
+* use GitHub Token with permissions: `contents: write`
+* exclude branch from delete: `badges` (`exclude-branches: 'badges'`)
+* perform a **delete** (`dry-run: false`)
+* delete inactive branches without new commits longer than 10 days (`max-idle-days: 10`)
+
+### Example 2 - Irreversible Delete Workflow
+```
+name: delete-github-branches
+
+on:
+  schedule:
+    - cron: '30 17 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  delete-branches:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: read
+
+    - name: Run delete-branches
+      id: delete-branches
+      uses: tagdots/delete-branches@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        repo-url: ${{ github.repository }}
+        max-idle-days: 10
+        exclude-branches: 'badges'
+        dry-run: false
+```
 
 <br>
 
