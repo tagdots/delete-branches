@@ -1,0 +1,69 @@
+name: "Delete GitHub Branches"
+
+description: 'Delete GitHub branches with no commits more than the maximum idle days'
+
+author: tagdots
+
+branding:
+  icon: trash-2
+  color: green
+
+inputs:
+  dry-run:
+    description: 'Dry Run'
+    default: 'true'
+    required: false
+
+  repo-url:
+    description: 'Repository URL'
+    default: ${{ github.repository }}
+    required: true
+
+  exclude-branches:
+    description: 'Branch excluded from deletion'
+    required: false
+
+  max-idle-days:
+    description: 'Delete branches with no commit more than the maximum idle days'
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+
+  - name: Checkout source code
+    uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+  - name: Install Python
+    uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+    with:
+      python-version: '3.12.x'
+
+  - name: Install the latest delete-branches
+    shell: bash
+    run: python -m pip install -U delete-branches
+
+  - name: Run delete-branches to show version
+    shell: bash
+    run: delete-branches --version
+
+  - name: Run delete-branches
+    shell: bash
+    env:
+      INPUT_DRY_RUN: "${{ inputs.dry-run }}"
+      INPUT_REPO_URL: "${{ inputs.repo-url }}"
+      INPUT_MAX_IDLE_DAYS: "${{ inputs.max-idle-days }}"
+      INPUT_EXCLUDE_BRANCHES: "${{ inputs.exclude-branches }}"
+    run: |
+      # delete-branches
+      if [[ -n "$INPUT_MAX_IDLE_DAYS" && "$INPUT_MAX_IDLE_DAYS" -ge 0 ]]; then
+        COLUMNS=145 delete-branches \
+          --dry-run "$INPUT_DRY_RUN" \
+          --repo-url "$INPUT_REPO_URL" \
+          --max-idle-days "$INPUT_MAX_IDLE_DAYS" \
+          --exclude-branches "$INPUT_EXCLUDE_BRANCHES"
+      else
+        echo "Error: please check your inputs"
+        exit 1
+      fi
