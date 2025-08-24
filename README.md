@@ -8,7 +8,7 @@
 <br>
 
 ## ✅ What does delete-branches do?
-**delete-branches** removes GitHub branches that have been inactive (without new commits) for longer than the idle period.
+**delete-branches** deletes idle branches in GitHub repository.
 
 _**exemptions**_: `default branch`, `protected branches`, `head branches in PR`, and `user-specified exclude branches`
 
@@ -17,6 +17,7 @@ _**exemptions**_: `default branch`, `protected branches`, `head branches in PR`,
 ## ⭐ Why switch to delete-branches?
 - we reduce your supply chain risks with [openssf best practices](https://best.openssf.org) in our SDLC and operations.
 - we share evidence of code coverage results in action (click _Code Coverage » cron-tasks » badge-coverage_).
+- we can run using [command line](https://github.com/tagdots/delete-branches?tab=readme-ov-file#-running-delete-branches-from-command-line) or GitHub Action [Delete GitHub Branches](https://github.com/marketplace/actions/delete-github-branches).
 
 <br>
 
@@ -25,16 +26,18 @@ Use the workflow examples below to create your own workflow inside `.github/work
 
 <br>
 
-### Example 1 - MOCK Delete Summary
+### Example 1 - Summary (MOCK delete)
 
-* run on a scheduled interval - every day at 5:30 pm UTC  (`- cron: '30 17 * * *'`)
-* use GitHub Token with permissions: `contents: read`
-* exclude branch from delete: `badges` (`exclude-branches: 'badges'`)
-* perform a **MOCK delete** (`dry-run: true`)
-* display inactive branches without new commits longer than 10 days (`max-idle-days: 10`)
+| Input | Workflow Spec | Notes
+|-------|-------------|----------|
+| `scheduled run` | `- cron: '30 17 * * *'` | Run daily at 5:30 pm UTC
+| `github token permissions` | `contents: read`<br>`pull-requests: read` | MOCK delete requires read permission |
+| `dry-run` | `true` | MOCK delete |
+| `exclude-branches` | `badges` | Branch `badges` is found and excluded |
+| `max-idle-days` | `10` | Without new commits longer than 10 days |
 
-### Example 1 - MOCK Delete Workflow
-```
+### Example 1 - Workflow (MOCK delete)
+```yml
 name: delete-github-branches
 
 on:
@@ -43,6 +46,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   delete-branches:
@@ -66,16 +70,17 @@ jobs:
 
 <br>
 
-### Example 2 - Irreversible Delete Summary
+### Example 2 - Summary (Irreversible delete)
+| Input | Workflow Spec | Notes
+|-------|-------------|----------|
+| `scheduled run` | `- cron: '30 17 * * *'` | Run daily at 5:30 pm UTC
+| `github token permissions` | `contents: write`<br>`pull-requests: read`| Delete requires write permission in `contents` |
+| `dry-run` | `false` | Irreversible delete |
+| `exclude-branches` | `badges` | Branch `badges` is found and excluded |
+| `max-idle-days` | `10` | Without new commits longer than 10 days |
 
-* run on a scheduled interval - every day at 5:30 pm UTC  (`- cron: '30 17 * * *'`)
-* use GitHub Token with permissions: `contents: write`
-* exclude branch from delete: `badges` (`exclude-branches: 'badges'`)
-* perform a **delete** (`dry-run: false`)
-* delete inactive branches without new commits longer than 10 days (`max-idle-days: 10`)
-
-### Example 2 - Irreversible Delete Workflow
-```
+### Example 2 - Workflow (Irreversible delete)
+```yml
 name: delete-github-branches
 
 on:
@@ -84,6 +89,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   delete-branches:
@@ -107,7 +113,7 @@ jobs:
 
 <br>
 
-## 🖥 Running _delete-branches_ locally
+## 🖥 Running _delete-branches_ from command line
 
 ### Prerequisites
 ```
@@ -119,41 +125,41 @@ jobs:
 
 ### Setup _delete-branches_
 ```
-~/work/hello-world $ workon hello-world
-(hello-world) ~/work/hello-world $ export GH_TOKEN=github_pat_xxxxxxxxxxxxx
-(hello-world) ~/work/hello-world $ pip install -U delete-branches
+~/work/test $ workon test
+(test) ~/work/test $ export GH_TOKEN=github_pat_xxxxxxxxxxxxx
+(test) ~/work/test $ pip install -U delete-branches
 ```
 
 <br>
 
-### 🔍 Example 1 - Run for help
+### Example 1 - Run for help
 ```
-(hello-world) ~/work/hello-world $ delete-branches --help
+(test) ~/work/test $ delete-branches --help
 Usage: delete-branches [OPTIONS]
 
 Options:
   --dry-run BOOLEAN        default: true
   --repo-url TEXT          e.g. https://github.com/{owner}/{repo}  [required]
   --exclude-branches TEXT  Branches excluded from deletion
-  --max-idle-days TEXT     Delete branches older than max. idle days [required]
+  --max-idle-days TEXT     Max. no. of idle days (without new commits) [required]
   --version                Show the version and exit.
   --help                   Show this message and exit.
 ```
 
 <br>
 
-### 🔍 Example 2 - MOCK delete branches with no commits longer than 10 days
-**Summary**
-1. exclude 3 branches: `test-1`, `test-2`, `badges`
-1. remove branches without commits longer than 10 days
+### Example 2 - MOCK delete branches without new commits longer than 10 days
+| Input | Input Detail | Result
+|-------|-------------|----------|
+| `repo-url` | `https://github.com/tagdots/test` | process repository `tagdots/test` |
+| `max-idle-days` | `10` | Without new commits longer than 10 days |
+| `exclude-branches` | `test-1`, `test-2`, `badges` | Only branch `badges` is found and excluded |
+| `dry-run` | `true` | a. 3 branches exempted from delete:<br>`main`, `badges`, `pr-branch-01`<br>b. 6 branches `NOT exempt from delete`<br>c. MOCK delete 2 of 6 `NOT-exempt-from-delete` branches |
 
-**Results**
-1. refine excluded branches to `badges` because branches (`test-1` and `test-2`) do not exist
-1. 3 branches are exempted from delete: `main`, `badges`, `pr-branch-01`
-1. 6 branches are not exempted from delete and 2 out of 6 had no commits in the last 10 days
-1. mock delete 2 branches
+<br>
+
 ```
-(hello-world) ~/work/hello-world $ delete-branches --dry-run true --max-idle-days 10 --repo-url https://github.com/tagdots/hello-world --exclude-branches "test-1, test-2, badges"
+(test) ~/work/test $ delete-branches --dry-run true --max-idle-days 10 --exclude-branches "test-1, test-2, badges" --repo-url https://github.com/tagdots/test
 
 🚀 Starting to Delete GitHub Branches (dry-run: True, exclude-branches: {'test-1', 'test-2', 'badges'}, max-idle-days: 10)
 
@@ -176,20 +182,20 @@ From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s
 
 <br>
 
-### 🔍 Example 3 - Delete branches with no commits longer than 10 days
-**Summary**
-1. exclude 1 branch: `badges`
-1. remove branches without commits longer than 10 days
+### Example 3 - Delete branches permanently without new commits longer than 10 days
+| Input | Input Detail | Result
+|-------|-------------|----------|
+| `repo-url` | `https://github.com/tagdots/test` | process repository `tagdots/test` |
+| `max-idle-days` | `10` | Without new commits longer than 10 days |
+| `exclude-branches` | `badges` | Branch `badges` is found and excluded |
+| `dry-run` | `false` | a. 3 branches exempted from delete: `main`, `badges`, `pr-branch-01`<br>b. 6 branches `NOT exempt from delete`<br>c. Delete 2 of 6 `NOT-exempt-from-delete` branches permanently |
 
-**Results**
-1. refine excluded branches to `badges`
-1. 3 branches are exempted from delete: `main`, `badges`, `pr-branch-01`
-1. 6 branches are not exempted from delete and 2 out of 6 had no commits in the last 10 days
-1. delete 2 branches
+<br>
+
 ```
-(hello-world) ~/work/hello-world $ delete-branches --dry-run false --max-days 10 --repo-url https://github.com/tagdots/hello-world --exclude-branches "badges"
+(test) ~/work/test $ delete-branches --dry-run false --max-days 10 --exclude-branches "badges" --repo-url https://github.com/tagdots/test
 
-🚀 Starting to Delete GitHub Branches (dry-run: True, exclude-branches: {'badges'}, max-idle-days: 10)
+🚀 Starting to Delete GitHub Branches (dry-run: False, exclude-branches: {'badges'}, max-idle-days: 10)
 
 Current Time (UTC): 2025-08-20 17:26:55
 
@@ -216,7 +222,7 @@ From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s
 |-------|-------------|----------|----------|----------|
 | `repo-url` | Repository URL | `None` | Yes | e.g. https://github.com/{owner}/{repo} |
 | `dry-run` | Dry-Run | `True` | No | - |
-| `max-idle-days` | Maximum number of days without commits | `None` | No | enter number of days |
+| `max-idle-days` | Maximum number of days without new commits | `None` | Yes | enter number of days |
 | `exclude-branches` | Branches excluded from deletion | `None` | No | comma seperated branches e.g. "branch1, branch2" |
 
 <br>
