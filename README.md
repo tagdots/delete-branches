@@ -154,7 +154,7 @@ Options:
 | `repo-url` | `https://github.com/tagdots/test` | process repository `tagdots/test` |
 | `max-idle-days` | `10` | Without new commits longer than 10 days |
 | `exclude-branches` | `test-1`, `test-2`, `badges` | Only branch `badges` is found and excluded |
-| `dry-run` | `true` | a. 3 branches exempted from delete:<br>`main`, `badges`, `pr-branch-01`<br>b. 6 branches `NOT exempt from delete`<br>c. MOCK delete 2 of 6 `NOT-exempt-from-delete` branches |
+| `dry-run` | `true` | a. 3 branches exempted from delete: `main`, `badges`, `pr-branch-01`<br>b. 6 branches `NOT exempt from delete`<br>c. MOCK delete 2 of 6 `NOT-exempt-from-delete` branches |
 
 <br>
 
