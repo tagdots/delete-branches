@@ -85,7 +85,7 @@ jobs:
         message: delete-branches-action
         message-color: FF6360
 
-  stale-workflow-runs: # https://github.com/tagdots/delete-workflow-runs-action
+  stale-workflow-runs: # https://github.com/tagdots/delete-workflow-runs
     runs-on: ubuntu-latest
 
     permissions:
@@ -95,7 +95,7 @@ jobs:
     steps:
     - name: Run stale-workflow-runs
       id: stale-workflow-runs
-      uses: tagdots/delete-workflow-runs-action@58a1d5cc098bd375f82e70a5c8b45261024f100c # 1.0.4
+      uses: tagdots/delete-workflow-runs@6384f56e65ab6e4e2e7193b3cffd3aae93b4636a # 1.1.18
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -129,7 +129,7 @@ jobs:
         days-before-close: 3
         operations-per-run: 40
 
-  stale-branches: # https://github.com/tagdots/delete-branches-action
+  stale-branches: # https://github.com/tagdots/delete-branches
     runs-on: ubuntu-latest
 
     permissions:
@@ -139,7 +139,7 @@ jobs:
     steps:
     - name: Run stale-branches
       id: stale-branches
-      uses: tagdots/delete-branches-action@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      uses: tagdots/delete-branches@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
