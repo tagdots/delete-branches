@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.1.3 (2025-08-24)
+
+### Fix
+
+- polish documentation in README, cron-tasks, run, and action
+- update hash and version in cron-tasks and README
+
 ## 1.1.1 (2025-08-23)
 
 ### Fix

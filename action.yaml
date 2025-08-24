@@ -1,6 +1,6 @@
 name: "Delete GitHub Branches"
 
-description: ':octocat: Deletes idle branches in GitHub repository'
+description: 'Deletes idle branches in GitHub repository'
 
 author: tagdots
 
