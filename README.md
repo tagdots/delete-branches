@@ -54,7 +54,7 @@ jobs:
 
     - name: Run delete-branches
       id: delete-branches
-      uses: tagdots/delete-branches@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      uses: tagdots/delete-branches@774994b535b7853251f338762a0b5fe829eece09 # 1.1.1
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -95,7 +95,7 @@ jobs:
 
     - name: Run delete-branches
       id: delete-branches
-      uses: tagdots/delete-branches@ff424d3a4af5b29492bd8b778887583259b3e573 # 1.0.0
+      uses: tagdots/delete-branches@774994b535b7853251f338762a0b5fe829eece09 # 1.1.1
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
