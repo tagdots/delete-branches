@@ -25,7 +25,7 @@ classifiers = [
 dependencies = [
   "click==8.2.1",
   "gitpython==3.1.45",
-  "pygithub==2.7.0",
+  "pygithub==2.8.1",
   "rich==14.1.0",
   "setuptools==80.9.0",
   "virtualenv==20.34.0",
