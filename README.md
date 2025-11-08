@@ -70,16 +70,16 @@ jobs:
 
 <br>
 
-### Example 2 - Summary (Irreversible delete)
+### Example 2 - Summary (Permanent delete)
 | Input | Workflow Spec | Notes
 |-------|-------------|----------|
 | `scheduled run` | `- cron: '30 17 * * *'` | Run daily at 5:30 pm UTC
 | `github token permissions` | `contents: write`<br>`pull-requests: read`| Delete requires write permission in `contents` |
-| `dry-run` | `false` | Irreversible delete |
+| `dry-run` | `false` | Permanent delete |
 | `exclude-branches` | `badges` | Branch `badges` is found and excluded |
 | `max-idle-days` | `10` | Without new commits longer than 10 days |
 
-### Example 2 - Workflow (Irreversible delete)
+### Example 2 - Workflow (Permanent delete)
 ```yml
 name: delete-github-branches
 
@@ -140,8 +140,8 @@ Usage: delete-branches [OPTIONS]
 Options:
   --dry-run BOOLEAN        default: true
   --repo-url TEXT          e.g. https://github.com/{owner}/{repo}  [required]
-  --exclude-branches TEXT  Branches excluded from deletion
-  --max-idle-days TEXT     Max. no. of idle days (without new commits) [required]
+  --exclude-branches TEXT  e.g. 'exclude-branch-1, exclude-branch-2'
+  --max-idle-days INTEGER  Max. no. of idle days (without commits)  [required]
   --version                Show the version and exit.
   --help                   Show this message and exit.
 ```
@@ -161,7 +161,7 @@ Options:
 ```
 (test) ~/work/test $ delete-branches --dry-run true --max-idle-days 10 --exclude-branches "test-1, test-2, badges" --repo-url https://github.com/tagdots/test
 
-🚀 Starting to Delete GitHub Branches (dry-run: True, exclude-branches: {'test-1', 'test-2', 'badges'}, max-idle-days: 10)
+🚀 Starting Delete GitHub Branches (dry-run: True, exclude-branches: {'test-1', 'test-2', 'badges'}, max-idle-days: 10)
 
 Current Time (UTC): 2025-08-20 17:08:32
 
@@ -174,7 +174,7 @@ Total Number of Branches                         : 9
 Total Number of Branches (Exempt-From-Delete)    : 3
 Total Number of Branches (Not-Exempt-From-Delete): 6
 
-From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s)
+From 6 Not-Exempt-From-Delete Branch(es),  2 branch is idle more than 10 day(s)
 -------------------------------------------------------------------------------------------------
 (MOCK) Delete branch - last update UTC 2025-08-09 13:49:34: branch-test-001
 (MOCK) Delete branch - last update UTC 2025-08-08 03:29:34: branch-test-005
@@ -195,7 +195,7 @@ From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s
 ```
 (test) ~/work/test $ delete-branches --dry-run false --max-days 10 --exclude-branches "badges" --repo-url https://github.com/tagdots/test
 
-🚀 Starting to Delete GitHub Branches (dry-run: False, exclude-branches: {'badges'}, max-idle-days: 10)
+🚀 Starting Delete GitHub Branches (dry-run: False, exclude-branches: {'badges'}, max-idle-days: 10)
 
 Current Time (UTC): 2025-08-20 17:26:55
 
@@ -208,7 +208,7 @@ Total Number of Branches                         : 9
 Total Number of Branches (Exempt-From-Delete)    : 3
 Total Number of Branches (Not-Exempt-From-Delete): 6
 
-From 6 Not-Exempt-From-Delete Branch(es),  2 had no commits in the last 10 day(s)
+From 6 Not-Exempt-From-Delete Branch(es),  2 branch is idle more than 10 day(s)
 -------------------------------------------------------------------------------------------------
 ✅ Delete branch - last update UTC 2025-08-09 13:49:34: branch-test-001
 ✅ Delete branch - last update UTC 2025-08-08 03:29:34: branch-test-005
