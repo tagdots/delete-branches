@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.2.14 (2025-11-08)
+
+### Fix
+
+- upgrade to use python 3.14
+
+### Refactor
+
+- improve code quality - readability, static checking
+
 ## 1.1.3 (2025-08-24)
 
 ### Fix
