@@ -58,11 +58,11 @@ jobs:
 
     - name: Run delete-branches
       id: delete-branches
-      uses: tagdots/delete-branches@774994b535b7853251f338762a0b5fe829eece09 # 1.1.1
+      uses: tagdots/delete-branches@1067f6cf756a462d2da56cffae2df37ea15b600e # 1.2.15
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        repo-url: ${{ github.repository }}
+        repo-url: ${{ github.server_url }}/${{ github.repository }}
         max-idle-days: 10
         exclude-branches: 'badges'
         dry-run: true
@@ -101,11 +101,11 @@ jobs:
 
     - name: Run delete-branches
       id: delete-branches
-      uses: tagdots/delete-branches@774994b535b7853251f338762a0b5fe829eece09 # 1.1.1
+      uses: tagdots/delete-branches@1067f6cf756a462d2da56cffae2df37ea15b600e # 1.2.15
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        repo-url: ${{ github.repository }}
+        repo-url: ${{ github.server_url }}/${{ github.repository }}
         max-idle-days: 10
         exclude-branches: 'badges'
         dry-run: false
