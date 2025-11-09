@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.15 (2025-11-09)
+
+### Fix
+
+- replace github context for repo-url
+
 ## 1.2.14 (2025-11-08)
 
 ### Fix
