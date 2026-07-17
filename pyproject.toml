@@ -1,19 +1,16 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-
-requires = [ "setuptools", "wheel" ]
+requires = [ "setuptools" ]
 
 [project]
 name = "delete-branches"
 version = "1.2.15"
-
 readme = "README.md"
 license-files = [ "LICENSE" ]
 authors = [
   { name = "developers", email = "developers@tagdots.com" },
 ]
 requires-python = ">=3.12.10"
-
 classifiers = [
   "Intended Audience :: Developers",
   "Programming Language :: Python :: 3 :: Only",
@@ -22,17 +19,14 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Build Tools",
 ]
-
 dependencies = [
-  "click==8.3.1",
-  "pygithub==2.8.1",
+  "click==8.4.2",
+  "pygithub==2.9.1",
 ]
-
 optional-dependencies.local = [
   "commitizen",
   "pre-commit",
 ]
-
 optional-dependencies.test = [
   "build",
   "coverage",
@@ -42,13 +36,11 @@ optional-dependencies.test = [
   "pytest",
   "twine",
 ]
-
 urls.Changelog = "https://github.com/tagdots/delete-branches/blob/main/CHANGELOG.md"
 urls.Documentation = "https://github.com/tagdots/delete-branches/blob/main/README.md"
 urls.Homepage = "https://github.com/tagdots"
 urls.Issues = "https://github.com/tagdots/delete-branches/issues"
 urls.Repository = "https://github.com/tagdots/delete-branches"
-
 scripts.delete-branches = "delete_branches.run:main"
 
 [dependency-groups]
@@ -56,11 +48,9 @@ test = [
   "coverage[toml]",
 ]
 
-[tool.setuptools.packages.find]
-where = [ "src" ]
-
-[tool.setuptools.dynamic]
-version = { attr = "src.delete_branches.__init__" }
+[tool.setuptools]
+packages.find.where = [ "src" ]
+dynamic.version = { attr = "src.delete_branches.__init__" }
 
 [tool.pyproject-fmt]
 column_width = 125
@@ -68,26 +58,22 @@ indent = 2
 keep_full_version = true
 
 [tool.coverage]
+run.branch = true
+run.command_line = "-m pytest -vs"
+run.include = [ "src/delete_branches/*" ]
+run.omit = [ "tests/*" ]
+report.fail_under = 80
+report.include = [ "src/delete_branches/*" ]
+report.show_missing = false
 source = [ "." ]
-
-[tool.coverage.run]
-branch = true
-command_line = "-m pytest -vs"
-include = [ "src/delete_branches/*" ]
-omit = [ "tests/*" ]
-
-[tool.coverage.report]
-fail_under = 80
-show_missing = false
-include = [ "src/delete_branches/*" ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-major_version_zero = false
-tag_format = "$version"
-update_changelog_on_bump = true
+version_scheme = "pep440"
+version_provider = "pep621"
 version_files = [
   "src/delete_branches/__init__.py:__version__",
 ]
-version_provider = "pep621"
-version_scheme = "pep440"
+major_version_zero = false
+tag_format = "$version"
+update_changelog_on_bump = true
