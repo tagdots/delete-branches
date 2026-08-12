@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = [ "setuptools" ]
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
 
 [project]
 name = "delete-branches"
@@ -20,52 +20,66 @@ classifiers = [
   "Topic :: Software Development :: Build Tools",
 ]
 dependencies = [
-  "click==8.4.2",
-  "pygithub==2.9.1",
-]
-optional-dependencies.local = [
-  "commitizen",
-  "pre-commit",
-]
-optional-dependencies.test = [
-  "build",
-  "coverage",
-  "flake8",
-  "isort",
-  "pyscan-rs",
-  "pytest",
-  "twine",
+  "click~=8.4.2",
+  "pygithub~=2.9.1",
 ]
 urls.Changelog = "https://github.com/tagdots/delete-branches/blob/main/CHANGELOG.md"
 urls.Documentation = "https://github.com/tagdots/delete-branches/blob/main/README.md"
 urls.Homepage = "https://github.com/tagdots"
 urls.Issues = "https://github.com/tagdots/delete-branches/issues"
 urls.Repository = "https://github.com/tagdots/delete-branches"
-scripts.delete-branches = "delete_branches.run:main"
+scripts.delete-branches = "delete_branches.cli:main"
 
 [dependency-groups]
+dev = [
+  "commitizen",
+  "pre-commit",
+]
 test = [
-  "coverage[toml]",
+  "coverage",
+  "pytest",
+]
+security = [
+  "bandit",
+  "pysentry-rs",
 ]
 
-[tool.setuptools]
-packages.find.where = [ "src" ]
-dynamic.version = { attr = "src.delete_branches.__init__" }
+[tool.hatch]
+version.path = "src/delete_branches/__init__.py"
+metadata.directory = "src"
+build.targets.wheel.packages = [ "src/delete_branches" ]
+
+[tool.black]
+line-length = 125
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 4
+combine_as_imports = true
+float_to_top = true
+skip = [ "__init__.py" ]
+
+[tool.flake8]
+max-line-length = 125
+max-complexity = 15
 
 [tool.pyproject-fmt]
 column_width = 125
 indent = 2
 keep_full_version = true
 
+[tool.pyright]
+venv = ".venv"
+venvPath = "."
+
 [tool.coverage]
 run.branch = true
-run.command_line = "-m pytest -vs"
-run.include = [ "src/delete_branches/*" ]
 run.omit = [ "tests/*" ]
+run.source = [ "src/delete_branches" ]
 report.fail_under = 80
-report.include = [ "src/delete_branches/*" ]
 report.show_missing = false
-source = [ "." ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -77,3 +91,4 @@ version_files = [
 major_version_zero = false
 tag_format = "$version"
 update_changelog_on_bump = true
+pre_bump_hooks = [ "uv lock" ]
