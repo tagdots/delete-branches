@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.16 (2026-08-13)
+
+### Fix
+
+- update pre-commit-config and pyproject.toml accordingly
+
 ## 1.2.15 (2025-11-09)
 
 ### Fix
