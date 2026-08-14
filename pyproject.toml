@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "delete-branches"
-version = "1.2.15"
+version = "1.2.16"
 readme = "README.md"
 license-files = [ "LICENSE" ]
 authors = [
