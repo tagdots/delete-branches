@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.17 (2026-09-22)
+
+
+- docs: elaborate on DocStrings and add Comments
+- build: fix dependency versioning strategy with flexible bounds
+- fix pyproject-fmt
+- build: fix coverage break due to pyproject-fmt
+
 ## 1.2.16 (2026-08-13)
 
 ### Fix
